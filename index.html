@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>RunAI Coach — Premium Prototype v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root{
+  --orange:#FF6B2C;--orange-deep:#E85D1A;--orange-light:#FF8F5E;--amber:#FFB347;--gold:#FFC857;
+  --gradient-main:linear-gradient(135deg,#FF6B2C 0%,#FF3D00 100%);
+  --gradient-warm:linear-gradient(135deg,#FF6B2C 0%,#FF8F5E 50%,#FFB347 100%);
+  --gradient-subtle:linear-gradient(145deg,rgba(255,107,44,.06) 0%,rgba(255,63,0,.02) 100%);
+  --bg:#09090B;--bg2:#111113;--bg-card:rgba(255,255,255,.03);--bg-card-h:rgba(255,255,255,.06);--bg-el:rgba(255,255,255,.05);
+  --tx:#F4F4F5;--tx2:rgba(244,244,245,.55);--tx3:rgba(244,244,245,.28);
+  --brd:rgba(255,255,255,.06);--brd-a:rgba(255,107,44,.3);
+  --ok:#10B981;--warn:#FBBF24;--err:#EF4444;--info:#60A5FA;
+  --z1:#60A5FA;--z2:#10B981;--z3:#FBBF24;--z4:#F97316;--z5:#EF4444;
+  --pw:393px;--ph:852px;--st:59px;--sb:34px;--th:82px;
+  --f:'Sora',system-ui,sans-serif;--m:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
+.side{width:280px;background:var(--bg2);border-right:1px solid var(--brd);height:100vh;position:fixed;left:0;top:0;overflow-y:auto;z-index:100}
+.side::-webkit-scrollbar{width:3px}.side::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+.side-hdr{padding:24px 18px 18px;border-bottom:1px solid var(--brd)}
+.side-logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:34px;height:34px;background:var(--gradient-main);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-txt{font-size:18px;font-weight:800;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.3px}
+.side-sub{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;margin-top:5px}
+.nav-sec{padding:12px 6px 4px}
+.nav-sec-t{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--tx3);padding:0 12px 5px}
+.ni{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all .15s;font-size:12px;color:var(--tx2);text-decoration:none}
+.ni:hover{background:var(--bg-card-h);color:var(--tx)}
+.ni.act{background:rgba(255,107,44,.1);color:var(--orange)}
+.ni .nc{font-family:var(--m);font-size:9px;color:var(--tx3);min-width:44px}
+.main{margin-left:280px;flex:1;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px;background:radial-gradient(ellipse at 50% 0%,rgba(255,107,44,.03) 0%,transparent 60%)}
+.phone{width:var(--pw);height:var(--ph);background:#000;border-radius:55px;position:relative;box-shadow:0 0 0 1.5px #1a1a1a,0 0 0 3px #0a0a0a,0 20px 60px rgba(0,0,0,.6),0 0 80px rgba(255,107,44,.04);overflow:hidden}
+.di{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:126px;height:37px;background:#000;border-radius:20px;z-index:50}
+.sbar{position:absolute;top:15px;left:32px;right:32px;height:18px;display:flex;justify-content:space-between;align-items:center;z-index:40;font-size:13px;font-weight:600}
+.sbar-r{display:flex;gap:5px;align-items:center}.sbar-r svg{width:14px;height:14px;opacity:.6}
+.hi{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;z-index:60}
+.sc{position:absolute;inset:0;border-radius:55px;overflow:hidden}
+.s{display:none;width:100%;height:100%;background:var(--bg);position:relative;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.s::-webkit-scrollbar{display:none}.s{scrollbar-width:none}
+.s.act{display:block}
+.sp{padding:var(--st) 20px var(--sb);min-height:100%}
+.sp.tabs{padding-bottom:calc(var(--th) + var(--sb))}
+.tb{position:absolute;bottom:0;left:0;right:0;height:var(--th);background:rgba(9,9,11,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--brd);display:flex;justify-content:space-around;align-items:flex-start;padding-top:10px;z-index:30}
+.ti{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:2px 16px}
+.ti svg{width:20px;height:20px;color:var(--tx3);transition:color .15s}
+.ti span{font-size:9px;color:var(--tx3);transition:color .15s;letter-spacing:.3px}
+.ti.act svg,.ti.act span{color:var(--orange)}
+.card{background:var(--bg-card);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:10px;backdrop-filter:blur(12px)}
+.card-a{background:var(--gradient-subtle);border-color:var(--brd-a)}
+.card-glow{box-shadow:0 0 30px rgba(255,107,44,.06)}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-family:var(--f);font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-p{background:var(--gradient-main);color:#fff;box-shadow:0 4px 20px rgba(255,107,44,.25)}
+.btn-p:hover{box-shadow:0 6px 28px rgba(255,107,44,.4);transform:translateY(-1px)}
+.btn-s{background:transparent;color:var(--tx2);border:1px solid var(--brd)}
+.btn-w{background:#fff;color:#000}
+.sec-t{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--tx3);margin:18px 0 8px}
+.sel{background:var(--bg-card);border:1.5px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s}
+.sel:hover{border-color:rgba(255,107,44,.15);background:var(--bg-card-h)}
+.sel.on{border-color:var(--orange);background:rgba(255,107,44,.06)}
+.sel-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sel-t{font-size:14px;font-weight:600}.sel-d{font-size:11.5px;color:var(--tx2);margin-top:2px}
+.inp{width:100%;padding:13px 14px;background:var(--bg-card);border:1.5px solid var(--brd);border-radius:12px;color:var(--tx);font-family:var(--f);font-size:14px;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--orange)}
+.inp-l{font-size:12px;font-weight:500;color:var(--tx2);margin-bottom:5px;display:block}
+.dots{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);transition:all .3s}
+.dot.on{background:var(--orange);width:20px}.dot.done{background:var(--orange-light)}
+.ai-msg{background:var(--gradient-subtle);border-left:2.5px solid var(--orange);border-radius:0 12px 12px 0;padding:13px 15px;margin:10px 0;font-size:13px;line-height:1.6;color:var(--tx2)}
+.ai-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--orange);margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.ai-lbl svg{width:12px;height:12px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sb2{background:var(--bg-card);border:1px solid var(--brd);border-radius:14px;padding:14px;text-align:center}
+.sb2 .sv{font-size:22px;font-weight:700;font-family:var(--m);margin-bottom:2px}
+.sb2 .sl{font-size:9.5px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px}
+.tgl{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--brd)}
+.tgl-s{width:46px;height:28px;background:rgba(255,255,255,.1);border-radius:14px;position:relative;cursor:pointer;transition:background .2s}
+.tgl-s.on{background:var(--orange)}
+.tgl-s::after{content:'';position:absolute;top:2px;left:2px;width:24px;height:24px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tgl-s.on::after{transform:translateX(18px)}
+.dp{display:flex;gap:5px;flex-wrap:wrap}
+.dpl{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;background:var(--bg-card);border:1.5px solid var(--brd);cursor:pointer;transition:all .2s}
+.dpl.on{background:rgba(255,107,44,.1);border-color:var(--orange);color:var(--orange)}
+.mi{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--brd);cursor:pointer}
+.mi-ic{width:36px;height:36px;background:var(--bg-card);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.mi-ic svg{width:16px;height:16px;color:var(--tx2)}
+.mi-t{flex:1;font-size:14px;font-weight:500}.mi-a{color:var(--tx3)}.mi-a svg{width:14px;height:14px}
+.lp{font-size:72px;font-weight:800;letter-spacing:-4px;text-align:center;font-family:var(--m);background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.zb{display:flex;height:4px;border-radius:2px;overflow:hidden;gap:2px}
+.zb span{flex:1;border-radius:2px}
+.sr{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:13px}
+.srk{min-width:30px;font-weight:600;color:var(--tx3);font-family:var(--m);font-size:11px}
+.srp{flex:1;font-weight:600;font-family:var(--m)}
+.srb{width:60px;height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin:0 8px;overflow:hidden}
+.srb div{height:100%;border-radius:2px}
+.srh{min-width:40px;text-align:right;font-family:var(--m);font-size:11px;color:var(--tx2)}
+.map{width:100%;height:180px;background:linear-gradient(180deg,rgba(17,17,19,.9) 0%,rgba(9,9,11,.95) 100%);border-radius:16px;position:relative;overflow:hidden;border:1px solid var(--brd)}
+.map::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(255,107,44,.08) 0%,transparent 50%)}
+.pr-badge{display:inline-block;background:var(--gradient-main);color:#fff;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:3px 10px;border-radius:20px;margin-bottom:8px}
+.wf{width:170px;height:210px;background:#000;border-radius:42px;margin:16px auto;position:relative;border:2.5px solid #222;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.wf.round{border-radius:50%;width:190px;height:190px}
+.wfc{padding:14px;text-align:center;width:100%}
+.ib{background:var(--bg-card);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin:8px 0;border:1px solid var(--brd)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ain>*{animation:fadeUp .3s ease-out both}
+.ain>*:nth-child(1){animation-delay:.03s}.ain>*:nth-child(2){animation-delay:.06s}.ain>*:nth-child(3){animation-delay:.09s}
+.ain>*:nth-child(4){animation-delay:.12s}.ain>*:nth-child(5){animation-delay:.15s}.ain>*:nth-child(6){animation-delay:.18s}
+.ain>*:nth-child(7){animation-delay:.21s}.ain>*:nth-child(8){animation-delay:.24s}.ain>*:nth-child(9){animation-delay:.27s}
+.mn{display:none;position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg2);border-bottom:1px solid var(--brd);z-index:200;align-items:center;padding:0 10px;gap:6px}
+.mn-h{width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:9px;background:var(--bg-card)}
+.mn-c{flex:1;text-align:center}.mn-id{font-family:var(--m);font-size:10px;color:var(--orange)}.mn-nm{font-size:12px;font-weight:600}
+.mn-ar{display:flex;gap:3px}
+.mn-ab{width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:7px;background:var(--bg-card);border:1px solid var(--brd)}
+.mn-ab svg{width:14px;height:14px}
+.mm-o{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300}
+.mm-o.open{display:block}
+.mm{position:fixed;top:0;left:0;bottom:0;width:85%;max-width:280px;background:var(--bg2);z-index:301;overflow-y:auto;transform:translateX(-100%);transition:transform .25s ease}
+.mm.open{transform:translateX(0)}
+.scnt{display:none;position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:5px 14px;font-size:11px;color:var(--tx2);z-index:150;font-family:var(--m)}
+@media(max-width:768px){.side{display:none}.main{margin-left:0;padding:64px 10px 56px;min-height:auto}.mn{display:flex}.scnt{display:block}}
+.sinf{position:fixed;right:32px;top:50%;transform:translateY(-50%);width:240px;background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:20px}
+.sinf h3{font-size:14px;font-weight:700;margin-bottom:2px}
+.sinf .si-id{font-family:var(--m);font-size:10px;color:var(--orange);margin-bottom:8px}
+.sinf p{font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:8px}
+.sinf .si-nav{display:flex;gap:6px;margin-top:12px}
+.sinf .si-nav button{flex:1;padding:8px;background:var(--bg-card);border:1px solid var(--brd);border-radius:8px;color:var(--tx);font-family:var(--f);font-size:12px;cursor:pointer;transition:all .15s}
+.sinf .si-nav button:hover{background:rgba(255,107,44,.08);border-color:var(--orange)}
+@media(max-width:1200px){.sinf{display:none}}
+.lang-toggle{display:flex;background:var(--bg-card);border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.lang-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border:none;background:transparent;color:var(--tx2);font-family:var(--f)}
+.lang-btn.act{background:var(--gradient-main);color:#fff}
+.workout-type{padding:3px 10px;border-radius:8px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.wt-intervals{background:rgba(249,115,22,.12);color:var(--z4)}
+.wt-easy{background:rgba(16,185,129,.12);color:var(--z2)}
+.wt-long{background:rgba(96,165,250,.12);color:var(--z1)}
+.wt-tempo{background:rgba(251,191,36,.12);color:var(--z3)}
+</style>
+</head>
+<body>
+
+<div class="mn" id="mobileNav">
+  <div class="mn-h" onclick="toggleMenu()"><i data-lucide="menu"></i></div>
+  <div class="mn-c"><div class="mn-id" id="mnId">ONB-01</div><div class="mn-nm" id="mnName">Splash</div></div>
+  <div class="mn-ar"><div class="mn-ab" onclick="navPrev()"><i data-lucide="chevron-left"></i></div><div class="mn-ab" onclick="navNext()"><i data-lucide="chevron-right"></i></div></div>
+</div>
+<div class="mm-o" id="menuOv" onclick="toggleMenu()"></div>
+<div class="mm" id="mobMenu"><div id="mmItems"></div></div>
+<div class="scnt" id="scnt">1 / 36</div>
+
+<div class="app">
+<nav class="side" id="sidebar"><div class="side-hdr"><div class="side-logo"><div class="logo-mark"><i data-lucide="flame" style="width:17px;height:17px;color:#fff"></i></div><span class="logo-txt">RunAI Coach</span></div><div class="side-sub">Screen Prototype v3.0</div></div><div id="sideItems"></div></nav>
+
+<div class="main">
+<div class="phone">
+<div class="di"></div>
+<div class="sbar"><span>9:41</span><span class="sbar-r"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+<div class="hi"></div>
+<div class="sc">
+
+<!-- ═══════ ONB-01: SPLASH ═══════ -->
+<div class="s act" id="s-onb01">
+<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden">
+  <div style="position:absolute;width:320px;height:320px;background:radial-gradient(circle,rgba(255,107,44,.2) 0%,rgba(255,63,0,.06) 40%,transparent 70%);border-radius:50%;filter:blur(60px)"></div>
+  <div style="position:relative;z-index:1;text-align:center">
+    <div style="width:92px;height:92px;background:var(--gradient-main);border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;box-shadow:0 12px 40px rgba(255,107,44,.3)"><i data-lucide="flame" style="width:42px;height:42px;color:#fff"></i></div>
+    <div style="font-size:32px;font-weight:800;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.5px">RunAI Coach</div>
+    <div style="font-size:11px;color:var(--tx3);margin-top:8px;letter-spacing:3px;text-transform:uppercase" data-i18n="splash_sub">Your AI Running Partner</div>
+  </div>
+  <div style="position:absolute;bottom:130px;z-index:2">
+    <div class="lang-toggle"><button class="lang-btn act" id="langEN" onclick="setLang('en')">EN</button><button class="lang-btn" id="langBG" onclick="setLang('bg')">BG</button></div>
+  </div>
+  <div style="position:absolute;bottom:90px;display:flex;gap:6px">
+    <div style="width:5px;height:5px;background:var(--orange);border-radius:50%;animation:pulse 1.2s infinite"></div>
+    <div style="width:5px;height:5px;background:var(--orange-light);border-radius:50%;animation:pulse 1.2s .2s infinite"></div>
+    <div style="width:5px;height:5px;background:var(--amber);border-radius:50%;animation:pulse 1.2s .4s infinite"></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-02: WELCOME ═══════ -->
+<div class="s" id="s-onb02">
+<div style="width:100%;height:100%;display:flex;flex-direction:column;background:var(--bg)">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--st) 28px 0;text-align:center">
+    <div style="width:140px;height:140px;background:radial-gradient(circle,rgba(255,107,44,.08) 0%,transparent 70%);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:28px">
+      <div style="width:72px;height:72px;background:var(--gradient-subtle);border-radius:18px;display:flex;align-items:center;justify-content:center;border:1px solid var(--brd-a)"><i data-lucide="mic" style="width:30px;height:30px;color:var(--orange)"></i></div>
+    </div>
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:10px;line-height:1.2" data-i18n="w_title">Real-Time Voice Coach</h2>
+    <p style="font-size:13.5px;color:var(--tx2);line-height:1.65;max-width:280px" data-i18n="w_desc">Your AI coach talks during runs — pace, heart rate, intervals. Like a personal trainer in your headphones.</p>
+  </div>
+  <div style="padding:0 28px calc(var(--sb) + 16px)">
+    <div class="dots" style="margin-bottom:20px"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+    <button class="btn btn-p" onclick="go('onb03')" style="margin-bottom:10px" data-i18n="w_start">Get Started</button>
+    <button class="btn btn-s" onclick="go('onb03')" style="font-size:13px" data-i18n="w_login">I already have an account</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-03: AUTH ═══════ -->
+<div class="s" id="s-onb03">
+<div style="width:100%;height:100%;display:flex;flex-direction:column;background:var(--bg)">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:var(--st) 22px 0">
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="width:50px;height:50px;background:var(--gradient-main);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><i data-lucide="flame" style="width:22px;height:22px;color:#fff"></i></div>
+      <h2 style="font-size:24px;font-weight:800;margin-bottom:5px" data-i18n="a_title">Welcome</h2>
+      <p style="color:var(--tx2);font-size:13.5px" data-i18n="a_sub">Create an account in 10 seconds</p>
+    </div>
+    <button class="btn btn-w" style="margin-bottom:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg> Sign in with Apple</button>
+    <button class="btn btn-s" style="margin-bottom:10px" data-i18n="a_google">Continue with Google</button>
+    <div style="display:flex;align-items:center;gap:14px;margin:16px 0"><div style="flex:1;height:1px;background:var(--brd)"></div><span style="font-size:12px;color:var(--tx3)" data-i18n="a_or">or</span><div style="flex:1;height:1px;background:var(--brd)"></div></div>
+    <div style="margin-bottom:10px"><input class="inp" type="email" placeholder="Email"></div>
+    <div style="margin-bottom:18px"><input class="inp" type="password" data-i18n-ph="a_pass" placeholder="Password"></div>
+    <button class="btn btn-p" onclick="go('onb04')" data-i18n="continue">Continue</button>
+    <div style="text-align:center;margin-top:14px"><a style="font-size:12px;color:var(--orange);text-decoration:none;cursor:pointer" data-i18n="a_forgot">Forgot password?</a></div>
+  </div>
+  <div style="text-align:center;padding:0 22px calc(var(--sb) + 6px);font-size:10px;color:var(--tx3);line-height:1.5" data-i18n="a_terms">By signing up you accept the Terms of Service and Privacy Policy</div>
+</div>
+</div>
+
+<!-- ═══════ ONB-04: GOAL ═══════ -->
+<div class="s" id="s-onb04">
+<div class="sp ain">
+  <div class="dots" style="margin-top:4px"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <h2 style="font-size:22px;font-weight:800;margin:14px 0 3px" data-i18n="g_title">What's your goal?</h2>
+  <p style="font-size:13px;color:var(--tx2);margin-bottom:14px" data-i18n="g_sub">Choose your main goal for a personalized plan</p>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(16,185,129,.08)"><i data-lucide="sprout" style="color:var(--ok)"></i></div><div><div class="sel-t" data-i18n="g1">First run / Coming back</div><div class="sel-d" data-i18n="g1d">Starting from zero or after a long break</div></div></div>
+  <div class="sel on"><div class="sel-ic" style="background:rgba(249,115,22,.08)"><i data-lucide="zap" style="color:var(--z4)"></i></div><div><div class="sel-t" data-i18n="g2">5K / 10K — beat my time</div><div class="sel-d" data-i18n="g2d">I want a faster personal record</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(251,191,36,.08)"><i data-lucide="trophy" style="color:var(--warn)"></i></div><div><div class="sel-t" data-i18n="g3">Half Marathon / Marathon</div><div class="sel-d" data-i18n="g3d">Race preparation</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(255,107,44,.08)"><i data-lucide="flame" style="color:var(--orange)"></i></div><div><div class="sel-t" data-i18n="g4">HYROX / Hybrid</div><div class="sel-d" data-i18n="g4d">Running + functional fitness</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(96,165,250,.08)"><i data-lucide="heart-pulse" style="color:var(--info)"></i></div><div><div class="sel-t" data-i18n="g5">General fitness</div><div class="sel-d" data-i18n="g5d">Running for health and shape</div></div></div>
+  <div style="margin-top:14px;display:flex;gap:8px">
+    <button class="btn btn-s" onclick="go('onb03')" style="flex:.35" data-i18n="back">← Back</button>
+    <button class="btn btn-p" onclick="go('onb05')" style="flex:.65" data-i18n="continue">Continue</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-05: LEVEL ═══════ -->
+<div class="s" id="s-onb05">
+<div class="sp ain">
+  <div class="dots" style="margin-top:4px"><div class="dot done"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <h2 style="font-size:22px;font-weight:800;margin:14px 0 3px" data-i18n="l_title">What's your level?</h2>
+  <p style="font-size:13px;color:var(--tx2);margin-bottom:14px" data-i18n="l_sub">Helps us calibrate the AI</p>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(16,185,129,.08)"><i data-lucide="footprints" style="color:var(--ok)"></i></div><div><div class="sel-t" data-i18n="l1">Beginner</div><div class="sel-d" data-i18n="l1d">Can run up to 1-2 km without stopping</div></div></div>
+  <div class="sel on"><div class="sel-ic" style="background:rgba(249,115,22,.08)"><i data-lucide="person-standing" style="color:var(--z4)"></i></div><div><div class="sel-t" data-i18n="l2">Intermediate</div><div class="sel-d" data-i18n="l2d">5-15 km/week, 5K under 30 min</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(255,107,44,.08)"><i data-lucide="gauge" style="color:var(--orange)"></i></div><div><div class="sel-t" data-i18n="l3">Advanced</div><div class="sel-d" data-i18n="l3d">20+ km/week, 10K under 50 min</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(251,191,36,.08)"><i data-lucide="crown" style="color:var(--warn)"></i></div><div><div class="sel-t" data-i18n="l4">Elite</div><div class="sel-d" data-i18n="l4d">Marathon under 3:30 or HYROX under 1:30</div></div></div>
+  <div style="margin-top:14px">
+    <label class="inp-l" data-i18n="l_5k">Last 5K time (optional)</label>
+    <div style="display:flex;gap:6px;align-items:center">
+      <input class="inp" placeholder="MM" style="width:65px;text-align:center" value="24">
+      <span style="font-size:20px;color:var(--tx3)">:</span>
+      <input class="inp" placeholder="SS" style="width:65px;text-align:center" value="30">
+      <button class="btn btn-s" style="width:auto;padding:13px 14px;font-size:12px" data-i18n="l_dk">Don't know</button>
+    </div>
+  </div>
+  <div style="margin-top:14px;display:flex;gap:8px">
+    <button class="btn btn-s" onclick="go('onb04')" style="flex:.35" data-i18n="back">← Back</button>
+    <button class="btn btn-p" onclick="go('onb06')" style="flex:.65" data-i18n="continue">Continue</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-06: PERSONAL ═══════ -->
+<div class="s" id="s-onb06">
+<div class="sp ain">
+  <div class="dots" style="margin-top:4px"><div class="dot done"></div><div class="dot done"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <h2 style="font-size:22px;font-weight:800;margin:14px 0 3px" data-i18n="p_title">A bit about you</h2>
+  <p style="font-size:13px;color:var(--tx2);margin-bottom:16px" data-i18n="p_sub">For a more accurate training plan</p>
+  <div style="margin-bottom:12px"><label class="inp-l" data-i18n="p_age">Age</label><input class="inp" type="number" value="32"></div>
+  <div style="margin-bottom:12px">
+    <label class="inp-l" data-i18n="p_sex">Gender</label>
+    <div style="display:flex;gap:6px">
+      <div class="dpl on" style="width:auto;padding:0 18px" data-i18n="p_m">Male</div>
+      <div class="dpl" style="width:auto;padding:0 18px" data-i18n="p_f">Female</div>
+      <div class="dpl" style="width:auto;padding:0 14px;font-size:10px" data-i18n="p_o">Prefer not to say</div>
+    </div>
+  </div>
+  <div style="margin-bottom:12px"><label class="inp-l"><span data-i18n="p_h">Height (cm)</span> <span style="color:var(--tx3)" data-i18n="optional">— optional</span></label><input class="inp" type="number" placeholder="180"></div>
+  <div style="margin-bottom:12px"><label class="inp-l"><span data-i18n="p_w">Weight (kg)</span> <span style="color:var(--tx3)" data-i18n="optional">— optional</span></label><input class="inp" type="number" placeholder="78"></div>
+  <div class="ai-msg"><div class="ai-lbl"><i data-lucide="shield-check"></i> <span data-i18n="privacy">Privacy</span></div><span data-i18n="p_priv">Your data stays on your device and is never shared.</span></div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <button class="btn btn-s" onclick="go('onb05')" style="flex:.35" data-i18n="back">← Back</button>
+    <button class="btn btn-p" onclick="go('onb07')" style="flex:.65" data-i18n="continue">Continue</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-07: SCHEDULE ═══════ -->
+<div class="s" id="s-onb07">
+<div class="sp ain">
+  <div class="dots" style="margin-top:4px"><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <h2 style="font-size:22px;font-weight:800;margin:14px 0 3px" data-i18n="sc_title">Training Schedule</h2>
+  <p style="font-size:13px;color:var(--tx2);margin-bottom:16px" data-i18n="sc_sub">When and how many days?</p>
+  <div style="margin-bottom:18px">
+    <label class="inp-l" data-i18n="sc_days">Days per week</label>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:14px 0">
+      <div style="width:38px;height:38px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="minus" style="width:16px;height:16px"></i></div>
+      <div style="font-size:48px;font-weight:800;font-family:var(--m);background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">4</div>
+      <div style="width:38px;height:38px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="plus" style="width:16px;height:16px"></i></div>
+    </div>
+  </div>
+  <div style="margin-bottom:18px">
+    <label class="inp-l" data-i18n="sc_pref">Preferred days</label>
+    <div class="dp" style="justify-content:center;margin-top:6px">
+      <div class="dpl on" data-i18n="d_mon">Mon</div><div class="dpl" data-i18n="d_tue">Tue</div><div class="dpl on" data-i18n="d_wed">Wed</div><div class="dpl" data-i18n="d_thu">Thu</div><div class="dpl on" data-i18n="d_fri">Fri</div><div class="dpl" data-i18n="d_sat">Sat</div><div class="dpl on" data-i18n="d_sun">Sun</div>
+    </div>
+  </div>
+  <div class="tgl">
+    <div><div style="font-size:14px;font-weight:500" data-i18n="sc_cross">Cross-training</div><div style="font-size:11px;color:var(--tx3)" data-i18n="sc_cross_d">Strength, HIIT, yoga</div></div>
+    <div class="tgl-s on"></div>
+  </div>
+  <div style="margin-top:18px;display:flex;gap:8px">
+    <button class="btn btn-s" onclick="go('onb06')" style="flex:.35" data-i18n="back">← Back</button>
+    <button class="btn btn-p" onclick="go('onb08')" style="flex:.65" data-i18n="continue">Continue</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-08: INJURIES ═══════ -->
+<div class="s" id="s-onb08">
+<div class="sp ain">
+  <div class="dots" style="margin-top:4px"><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+  <h2 style="font-size:22px;font-weight:800;margin:14px 0 3px" data-i18n="inj_title">Injuries & Limitations</h2>
+  <p style="font-size:13px;color:var(--tx2);margin-bottom:14px" data-i18n="inj_sub">AI will adapt your plan accordingly</p>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(249,115,22,.08)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--z4)"><circle cx="12" cy="4.5" r="2.5"/><path d="M12 7v4l-2 6h4l-2-6"/><path d="M10 17l-1.5 5M14 17l1.5 5"/></svg></div><div><div class="sel-t" data-i18n="i1">Knee</div><div class="sel-d" data-i18n="i1d">Runner's knee, patella issues</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(249,115,22,.08)"><i data-lucide="footprints" style="color:var(--z4)"></i></div><div><div class="sel-t" data-i18n="i2">Achilles tendon</div><div class="sel-d" data-i18n="i2d">Tendinitis, stiffness</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(249,115,22,.08)"><i data-lucide="circle-dot" style="color:var(--z4)"></i></div><div><div class="sel-t" data-i18n="i3">Ankle</div><div class="sel-d" data-i18n="i3d">Sprains, instability</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(249,115,22,.08)"><i data-lucide="move-vertical" style="color:var(--z4)"></i></div><div><div class="sel-t" data-i18n="i4">Back / lower back</div><div class="sel-d" data-i18n="i4d">Disc issues, muscle tension</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(249,115,22,.08)"><i data-lucide="scan-line" style="color:var(--z4)"></i></div><div><div class="sel-t" data-i18n="i5">Shin splints</div><div class="sel-d" data-i18n="i5d">Tibial stress, periostitis</div></div></div>
+  <div class="sel on" style="border-color:var(--ok)"><div class="sel-ic" style="background:rgba(16,185,129,.08)"><i data-lucide="check-circle" style="color:var(--ok)"></i></div><div><div class="sel-t" style="color:var(--ok)" data-i18n="i_none">No injuries</div></div></div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <button class="btn btn-s" onclick="go('onb07')" style="flex:.35" data-i18n="back">← Back</button>
+    <button class="btn btn-p" onclick="go('onb09')" style="flex:.65" data-i18n="continue">Continue</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-09: DEVICES ═══════ -->
+<div class="s" id="s-onb09">
+<div class="sp ain">
+  <div class="dots" style="margin-top:4px"><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot on"></div><div class="dot"></div></div>
+  <h2 style="font-size:22px;font-weight:800;margin:14px 0 3px" data-i18n="d_title">Connect Your Devices</h2>
+  <p style="font-size:13px;color:var(--tx2);margin-bottom:14px" data-i18n="d_sub">For live coaching and better analysis</p>
+  <div class="sec-t" data-i18n="d_health">Health Data</div>
+  <div class="card card-a" style="display:flex;align-items:center;gap:12px">
+    <div style="width:40px;height:40px;background:rgba(255,107,44,.08);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="heart" style="width:18px;height:18px;color:var(--orange)"></i></div>
+    <div style="flex:1"><div style="font-weight:600;font-size:13.5px">Apple Health</div><div style="font-size:11px;color:var(--tx2)" data-i18n="d_health_d">HR, workouts, sleep, VO2 Max</div></div>
+    <div style="padding:4px 10px;background:var(--ok);border-radius:14px;font-size:10px;font-weight:600;color:#fff;display:flex;align-items:center;gap:3px"><i data-lucide="check" style="width:11px;height:11px"></i></div>
+  </div>
+  <div class="sec-t" data-i18n="d_watch">Watch</div>
+  <div class="card" style="display:flex;align-items:center;gap:12px">
+    <div style="width:40px;height:40px;background:var(--bg-el);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="watch" style="width:18px;height:18px;color:var(--tx2)"></i></div>
+    <div style="flex:1"><div style="font-weight:600;font-size:13.5px">Apple Watch</div><div style="font-size:11px;color:var(--tx2)" data-i18n="d_auto">Automatic via HealthKit</div></div>
+    <div style="padding:4px 10px;background:var(--ok);border-radius:14px;font-size:10px;font-weight:600;color:#fff"><i data-lucide="check" style="width:11px;height:11px"></i></div>
+  </div>
+  <div class="card" style="display:flex;align-items:center;gap:12px">
+    <div style="width:40px;height:40px;background:var(--bg-el);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="watch" style="width:18px;height:18px;color:var(--tx2)"></i></div>
+    <div style="flex:1"><div style="font-weight:600;font-size:13.5px">Garmin Connect</div><div style="font-size:11px;color:var(--tx2)" data-i18n="d_garmin_d">Live sync + historical data</div></div>
+    <button style="padding:5px 12px;background:var(--bg-el);border:1px solid var(--brd);border-radius:14px;font-size:11px;font-weight:600;color:var(--tx);cursor:pointer;font-family:var(--f)" data-i18n="d_connect">Connect</button>
+  </div>
+  <div class="sec-t" data-i18n="d_perm">Permissions</div>
+  <div class="tgl"><div style="display:flex;align-items:center;gap:8px"><i data-lucide="map-pin" style="width:16px;height:16px;color:var(--tx2)"></i><span style="font-size:13px;font-weight:500" data-i18n="d_loc">Location</span></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div style="display:flex;align-items:center;gap:8px"><i data-lucide="bell" style="width:16px;height:16px;color:var(--tx2)"></i><span style="font-size:13px;font-weight:500" data-i18n="d_notif">Notifications</span></div><div class="tgl-s on"></div></div>
+  <div style="margin-top:14px;display:flex;gap:8px">
+    <button class="btn btn-s" onclick="go('onb08')" style="flex:.35" data-i18n="back">← Back</button>
+    <button class="btn btn-p" onclick="go('onb10')" style="flex:.65" data-i18n="continue">Continue</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ONB-10: PLAN GENERATION ═══════ -->
+<div class="s" id="s-onb10">
+<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);padding:28px;text-align:center">
+  <div style="width:100px;height:100px;position:relative;margin-bottom:28px">
+    <div style="position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--orange);animation:spin 1.2s linear infinite"></div>
+    <div style="position:absolute;inset:6px;border-radius:50%;border:2px solid transparent;border-bottom-color:var(--orange-light);animation:spin 1.8s linear infinite reverse"></div>
+    <div style="position:absolute;inset:14px;background:var(--gradient-main);border-radius:50%;display:flex;align-items:center;justify-content:center"><i data-lucide="route" style="width:28px;height:28px;color:#fff"></i></div>
+  </div>
+  <h2 style="font-size:20px;font-weight:700;margin-bottom:6px" data-i18n="gen_title">Building your plan...</h2>
+  <p style="font-size:13px;color:var(--tx2);margin-bottom:28px" data-i18n="gen_sub">AI is analyzing your profile</p>
+  <div style="width:100%;max-width:260px;text-align:left">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div style="width:22px;height:22px;background:var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center"><i data-lucide="check" style="width:12px;height:12px;color:#fff"></i></div><span style="font-size:13px;color:var(--tx2)" data-i18n="gen1">Analyzing health data</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div style="width:22px;height:22px;background:var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center"><i data-lucide="check" style="width:12px;height:12px;color:#fff"></i></div><span style="font-size:13px;color:var(--tx2)" data-i18n="gen2">Calibrating pace zones</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div style="width:22px;height:22px;background:var(--z4);border-radius:50%;display:flex;align-items:center;justify-content:center"><i data-lucide="loader" style="width:12px;height:12px;color:#fff;animation:spin 1s linear infinite"></i></div><span style="font-size:13px" data-i18n="gen3">Creating training plan</span></div>
+    <div style="display:flex;align-items:center;gap:8px"><div style="width:22px;height:22px;background:rgba(255,255,255,.06);border-radius:50%"></div><span style="font-size:13px;color:var(--tx3)" data-i18n="gen4">Personalizing AI coach</span></div>
+  </div>
+  <div style="position:absolute;bottom:calc(var(--sb) + 16px);left:22px;right:22px">
+    <button class="btn btn-p" onclick="go('sub01')" data-i18n="gen_go">See your plan →</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ HOME-01: DASHBOARD ═══════ -->
+<div class="s" id="s-home01">
+<div class="sp tabs ain">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-top:4px">
+    <div><div style="font-size:13px;color:var(--tx2)" data-i18n="h_greet">Good morning</div><div style="font-size:20px;font-weight:800" data-i18n="h_name">Chris</div></div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <div style="display:flex;align-items:center;gap:4px;padding:5px 10px;background:rgba(249,115,22,.08);border-radius:8px"><i data-lucide="flame" style="width:14px;height:14px;color:var(--z4)"></i><span style="font-size:13px;font-weight:700;font-family:var(--m);color:var(--z4)">5</span></div>
+      <div style="width:34px;height:34px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="go('home04')"><i data-lucide="bell" style="width:15px;height:15px;color:var(--tx2)"></i></div>
+    </div>
+  </div>
+  <!-- Recovery Score -->
+  <div class="card card-a card-glow" style="display:flex;align-items:center;gap:14px">
+    <div style="width:80px;height:80px;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="5"/><circle cx="40" cy="40" r="34" fill="none" stroke="url(#rc)" stroke-width="5" stroke-linecap="round" stroke-dasharray="214" stroke-dashoffset="47" transform="rotate(-90 40 40)"/><defs><linearGradient id="rc" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#FF6B2C"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs></svg>
+      <div style="text-align:center;position:absolute"><div style="font-size:22px;font-weight:800;font-family:var(--m)">78</div><div style="font-size:7px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-top:-1px">Score</div></div>
+    </div>
+    <div><div style="font-size:13px;font-weight:600;color:var(--ok)" data-i18n="h_ready">Ready to train</div><div style="font-size:11px;color:var(--tx2);margin-top:3px;font-family:var(--m)">HRV 52ms · <span data-i18n="h_sleep">Sleep</span> 7.2h · Load <span data-i18n="h_medium">medium</span></div></div>
+  </div>
+  <div class="sec-t" data-i18n="h_today">Today's Workout</div>
+  <div class="card" style="cursor:pointer" onclick="go('home02')">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:6px"><span class="workout-type wt-intervals">Intervals</span><span style="font-size:11px;color:var(--tx3)">45 <span data-i18n="min">min</span></span></div>
+      <i data-lucide="chevron-right" style="width:14px;height:14px;color:var(--tx3)"></i>
+    </div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:5px" data-i18n="h_workout">6×800m Intervals</div>
+    <div style="font-size:12px;color:var(--tx2);margin-bottom:12px" data-i18n="h_desc">Warm-up 10 min → 6×800m @ Z4 → Cool-down 10 min</div>
+    <div style="display:flex;gap:14px;font-size:11px;color:var(--tx3)">
+      <span style="display:flex;align-items:center;gap:3px"><i data-lucide="route" style="width:12px;height:12px"></i>6.8 km</span>
+      <span style="display:flex;align-items:center;gap:3px"><i data-lucide="heart" style="width:12px;height:12px"></i>Z2–Z4</span>
+      <span style="display:flex;align-items:center;gap:3px"><i data-lucide="flame" style="width:12px;height:12px"></i>~380 kcal</span>
+    </div>
+    <button class="btn btn-p" style="margin-top:14px" onclick="event.stopPropagation();go('run01')" data-i18n="h_start">Start Workout</button>
+  </div>
+  <div class="ai-msg"><div class="ai-lbl"><i data-lucide="sparkles"></i> AI Coach</div><span data-i18n="h_ai">Your HRV is stable this week. Today's intervals will push your 5K goal forward — focus on even pacing across all 6 reps.</span></div>
+  <div class="sec-t" data-i18n="h_week">This Week</div>
+  <div style="display:flex;gap:3px">
+    <div style="flex:1;text-align:center;padding:7px 3px;border-radius:10px"><div style="font-size:9px;color:var(--tx3)" data-i18n="wd_mon">Mon</div><div style="font-size:13px;font-weight:600;font-family:var(--m);margin:4px 0">10</div><div style="width:5px;height:5px;border-radius:50%;background:var(--ok);margin:0 auto"></div></div>
+    <div style="flex:1;text-align:center;padding:7px 3px;border-radius:10px"><div style="font-size:9px;color:var(--tx3)" data-i18n="wd_tue">Tue</div><div style="font-size:13px;font-weight:600;font-family:var(--m);margin:4px 0">11</div><div style="width:5px;height:5px;border-radius:50%;background:var(--tx3);margin:0 auto;opacity:.3"></div></div>
+    <div style="flex:1;text-align:center;padding:7px 3px;border-radius:10px"><div style="font-size:9px;color:var(--tx3)" data-i18n="wd_wed">Wed</div><div style="font-size:13px;font-weight:600;font-family:var(--m);margin:4px 0">12</div><div style="width:5px;height:5px;border-radius:50%;background:var(--ok);margin:0 auto"></div></div>
+    <div style="flex:1;text-align:center;padding:7px 3px;border-radius:10px"><div style="font-size:9px;color:var(--tx3)" data-i18n="wd_thu">Thu</div><div style="font-size:13px;font-weight:600;font-family:var(--m);margin:4px 0">13</div><div style="width:5px;height:5px;border-radius:50%;background:var(--tx3);margin:0 auto;opacity:.3"></div></div>
+    <div style="flex:1;text-align:center;padding:7px 3px;border-radius:10px;background:rgba(255,107,44,.06);border:1px solid rgba(255,107,44,.15)"><div style="font-size:9px;color:var(--orange)" data-i18n="wd_fri">Fri</div><div style="font-size:13px;font-weight:600;font-family:var(--m);margin:4px 0;color:var(--orange)">14</div><div style="width:5px;height:5px;border-radius:50%;background:var(--z4);margin:0 auto"></div></div>
+    <div style="flex:1;text-align:center;padding:7px 3px;border-radius:10px"><div style="font-size:9px;color:var(--tx3)" data-i18n="wd_sat">Sat</div><div style="font-size:13px;font-weight:600;font-family:var(--m);margin:4px 0">15</div><div style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.06);margin:0 auto"></div></div>
+    <div style="flex:1;text-align:center;padding:7px 3px;border-radius:10px"><div style="font-size:9px;color:var(--tx3)" data-i18n="wd_sun">Sun</div><div style="font-size:13px;font-weight:600;font-family:var(--m);margin:4px 0">16</div><div style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.06);margin:0 auto"></div></div>
+  </div>
+</div>
+<div class="tb"><div class="ti act"><i data-lucide="home"></i><span>Home</span></div><div class="ti" onclick="go('plan01')"><i data-lucide="calendar"></i><span data-i18n="tab_plan">Plan</span></div><div class="ti" onclick="go('prog01')"><i data-lucide="trending-up"></i><span data-i18n="tab_prog">Progress</span></div><div class="ti" onclick="go('prof01')"><i data-lucide="user"></i><span data-i18n="tab_prof">Profile</span></div></div>
+</div>
+
+<!-- ═══════ HOME-02: WORKOUT DETAIL ═══════ -->
+<div class="s" id="s-home02">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('home01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700" data-i18n="h02_t">Workout Details</span></div>
+  <div style="text-align:center;margin-bottom:14px"><span class="workout-type wt-intervals">Intervals</span></div>
+  <div style="text-align:center;margin-bottom:16px">
+    <div style="font-size:22px;font-weight:800" data-i18n="h_workout">6×800m Intervals</div>
+    <div style="font-size:12px;color:var(--tx2);margin-top:4px">45 <span data-i18n="min">min</span> · 6.8 km · Z2–Z4</div>
+  </div>
+  <div class="sec-t" data-i18n="h02_segments">Segments</div>
+  <div class="card" style="padding:10px 14px">
+    <div class="sr"><span class="srk">1</span><span style="flex:1;font-size:13px" data-i18n="h02_warmup">Warm-up</span><span class="srh">10 min · Z2</span></div>
+    <div class="sr"><span class="srk">2–7</span><span style="flex:1;font-size:13px">6×800m @ Z4</span><span class="srh">4:20–4:35</span></div>
+    <div class="sr" style="border:none"><span class="srk">8</span><span style="flex:1;font-size:13px" data-i18n="h02_cooldown">Cool-down</span><span class="srh">10 min · Z1</span></div>
+  </div>
+  <div class="ai-msg"><div class="ai-lbl"><i data-lucide="sparkles"></i> AI Coach</div><span data-i18n="h02_ai">Focus on even pacing today. Don't go out too hard on rep 1 — save energy for reps 4-6 where it counts.</span></div>
+  <button class="btn btn-p" onclick="go('run01')" data-i18n="h_start">Start Workout →</button>
+</div>
+</div>
+
+<!-- ═══════ HOME-03: WEEKLY SUMMARY ═══════ -->
+<div class="s" id="s-home03">
+<div class="sp tabs ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('home01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700" data-i18n="h03_t">Weekly Summary</span></div>
+  <div class="sg"><div class="sb2"><div class="sv" style="color:var(--z4)">24.3</div><div class="sl">km</div></div><div class="sb2"><div class="sv">3/4</div><div class="sl" data-i18n="h03_w">workouts</div></div><div class="sb2"><div class="sv" style="color:var(--ok)">+12%</div><div class="sl" data-i18n="h03_vs">vs last week</div></div><div class="sb2"><div class="sv">1840</div><div class="sl">kcal</div></div></div>
+</div>
+<div class="tb"><div class="ti act"><i data-lucide="home"></i><span>Home</span></div><div class="ti" onclick="go('plan01')"><i data-lucide="calendar"></i><span data-i18n="tab_plan">Plan</span></div><div class="ti" onclick="go('prog01')"><i data-lucide="trending-up"></i><span data-i18n="tab_prog">Progress</span></div><div class="ti" onclick="go('prof01')"><i data-lucide="user"></i><span data-i18n="tab_prof">Profile</span></div></div>
+</div>
+
+<!-- ═══════ HOME-04: NOTIFICATIONS ═══════ -->
+<div class="s" id="s-home04">
+<div class="sp tabs ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('home01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700" data-i18n="h04_t">Notifications</span></div>
+  <div class="card" style="border-left:2.5px solid var(--z4)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><i data-lucide="sparkles" style="width:13px;height:13px;color:var(--z4)"></i><span style="font-size:10px;color:var(--tx3);font-family:var(--m)">AI Tip · 2h</span></div><div style="font-size:13px" data-i18n="n1">Tomorrow is a long run — go to bed early tonight.</div></div>
+  <div class="card" style="border-left:2.5px solid var(--ok)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><i data-lucide="trophy" style="width:13px;height:13px;color:var(--ok)"></i><span style="font-size:10px;color:var(--tx3);font-family:var(--m)" data-i18n="n2_t">Milestone · Yesterday</span></div><div style="font-size:13px"><span data-i18n="n2">New record! 1K —</span> <b>4:18</b></div></div>
+  <div class="card" style="border-left:2.5px solid var(--warn)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><i data-lucide="alert-triangle" style="width:13px;height:13px;color:var(--warn)"></i><span style="font-size:10px;color:var(--tx3);font-family:var(--m)">Injury Risk · 1d</span></div><div style="font-size:13px" data-i18n="n3">Training load rising fast (+18%). Consider an easy day.</div></div>
+</div>
+<div class="tb"><div class="ti act"><i data-lucide="home"></i><span>Home</span></div><div class="ti" onclick="go('plan01')"><i data-lucide="calendar"></i><span data-i18n="tab_plan">Plan</span></div><div class="ti" onclick="go('prog01')"><i data-lucide="trending-up"></i><span data-i18n="tab_prog">Progress</span></div><div class="ti" onclick="go('prof01')"><i data-lucide="user"></i><span data-i18n="tab_prof">Profile</span></div></div>
+</div>
+
+<!-- ═══════ SUB-01: PAYWALL ═══════ -->
+<div class="s" id="s-sub01">
+<div style="width:100%;height:100%;background:var(--bg);position:relative;overflow-y:auto">
+  <div style="position:absolute;top:calc(var(--st) + 2px);right:14px;width:30px;height:30px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10" onclick="go('home01')"><i data-lucide="x" style="width:14px;height:14px"></i></div>
+  <div style="padding:calc(var(--st) + 12px) 22px calc(var(--sb) + 12px)">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="width:54px;height:54px;background:var(--gradient-main);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><i data-lucide="crown" style="width:24px;height:24px;color:#fff"></i></div>
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:5px;line-height:1.2" data-i18n="pw_title">Unlock Your Full Potential</h2>
+      <p style="font-size:13px;color:var(--tx2)" data-i18n="pw_sub">Run faster with AI coaching</p>
+    </div>
+    <div style="margin-bottom:18px">
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><i data-lucide="mic" style="width:15px;height:15px;color:var(--orange);flex-shrink:0"></i><span style="font-size:13px" data-i18n="f1">Live AI audio coaching</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><i data-lucide="infinity" style="width:15px;height:15px;color:var(--orange);flex-shrink:0"></i><span style="font-size:13px" data-i18n="f2">Unlimited workouts</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><i data-lucide="sparkles" style="width:15px;height:15px;color:var(--orange);flex-shrink:0"></i><span style="font-size:13px" data-i18n="f3">AI post-run analysis</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><i data-lucide="refresh-cw" style="width:15px;height:15px;color:var(--orange);flex-shrink:0"></i><span style="font-size:13px" data-i18n="f4">Automatic plan adaptation</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><i data-lucide="target" style="width:15px;height:15px;color:var(--orange);flex-shrink:0"></i><span style="font-size:13px" data-i18n="f5">Race Predictor</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><i data-lucide="shield-check" style="width:15px;height:15px;color:var(--orange);flex-shrink:0"></i><span style="font-size:13px" data-i18n="f6">Injury Risk Monitor</span></div>
+    </div>
+    <div class="card card-a card-glow" style="text-align:center;cursor:pointer;border-color:var(--orange)">
+      <div class="pr-badge" data-i18n="pw_best">Best Value</div>
+      <div style="font-size:34px;font-weight:800;font-family:var(--m)">€74.99</div>
+      <div style="font-size:13px;color:var(--tx2)" data-i18n="pw_year">/year (save 33%)</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">= €6.25/<span data-i18n="pw_mo">month</span></div>
+    </div>
+    <div class="card" style="text-align:center;cursor:pointer">
+      <div style="font-size:28px;font-weight:800;font-family:var(--m)">€9.49</div>
+      <div style="font-size:13px;color:var(--tx2)" data-i18n="pw_month">/month</div>
+    </div>
+    <button class="btn btn-p" style="margin-top:12px;padding:16px;font-size:16px" onclick="go('home01')" data-i18n="pw_trial">Start 7-Day Free Trial</button>
+    <div style="text-align:center;margin-top:10px">
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:6px" data-i18n="pw_cancel">Cancel anytime · No charge until trial ends</div>
+      <a style="font-size:12px;color:var(--tx2);text-decoration:none;cursor:pointer" onclick="go('home01')" data-i18n="pw_free">Continue free →</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ RUN-01: PRE-RUN ═══════ -->
+<div class="s" id="s-run01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('home01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700" data-i18n="r01_t">Pre-Run Briefing</span></div>
+  <div style="text-align:center;margin-bottom:14px">
+    <div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px" data-i18n="h_today">Today's Workout</div>
+    <div style="font-size:24px;font-weight:800;margin:6px 0" data-i18n="h_workout">6×800m Intervals</div>
+  </div>
+  <div class="ai-msg"><div class="ai-lbl"><i data-lucide="sparkles"></i> AI Briefing</div><span data-i18n="r01_ai">Target: even intervals in Zone 4. Don't start too fast — negative splits are the goal today.</span></div>
+  <div class="sg"><div class="sb2"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px" data-i18n="r01_pace">TARGET PACE</div><div style="font-size:20px;font-weight:700;font-family:var(--m);color:var(--z4)">4:20–4:35</div></div><div class="sb2"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px" data-i18n="r01_hr">TARGET HR</div><div style="font-size:20px;font-weight:700;font-family:var(--m);color:var(--z5)">165–178</div></div></div>
+  <div class="sec-t" data-i18n="r01_dev">Devices</div>
+  <div class="card" style="padding:10px 14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="watch" style="width:14px;height:14px"></i>Apple Watch Ultra</span><span style="color:var(--ok)"><i data-lucide="check-circle" style="width:14px;height:14px"></i></span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="map-pin" style="width:14px;height:14px"></i>GPS</span><span style="color:var(--ok)"><i data-lucide="check-circle" style="width:14px;height:14px"></i></span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="headphones" style="width:14px;height:14px"></i>AirPods Pro</span><span style="color:var(--ok)"><i data-lucide="check-circle" style="width:14px;height:14px"></i></span></div>
+  </div>
+  <button class="btn btn-p" style="margin-top:14px;padding:18px;font-size:17px" onclick="go('run02')"><i data-lucide="play" style="width:20px;height:20px"></i> <span data-i18n="start">Start</span></button>
+</div>
+</div>
+
+<!-- ═══════ RUN-02: ACTIVE RUN ═══════ -->
+<div class="s" id="s-run02">
+<div style="width:100%;height:100%;background:var(--bg);position:relative">
+  <div style="position:absolute;top:0;left:0;right:0;height:150px;overflow:hidden"><div class="map" style="border-radius:0;height:100%;border:none"><svg viewBox="0 0 200 80" style="position:absolute;top:15%;left:10%;width:80%;height:60%"><path d="M10,60 Q30,10 60,35 T120,20 T170,45" fill="none" stroke="url(#rg2)" stroke-width="3" stroke-linecap="round"/><defs><linearGradient id="rg2" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#10B981"/><stop offset="60%" stop-color="#F97316"/><stop offset="100%" stop-color="#EF4444"/></linearGradient></defs><circle cx="170" cy="45" r="4" fill="var(--orange)"><animate attributeName="r" values="3;6;3" dur="1.5s" repeatCount="indefinite"/></circle></svg></div><div style="position:absolute;bottom:0;left:0;right:0;height:30px;background:linear-gradient(transparent,var(--bg))"></div></div>
+  <div style="padding:160px 18px var(--sb)">
+    <div class="ib"><div style="width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 1.5s infinite"></div><div style="font-size:12px;font-weight:600;flex:1" data-i18n="r02_int">Interval 3/6 — 800m</div><div style="font-family:var(--m);font-size:14px;font-weight:700;color:var(--z4)">0:42</div></div>
+    <div style="text-align:center;margin:8px 0"><div class="lp">4:28</div><div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:3px;font-family:var(--m)">min/km</div></div>
+    <div style="text-align:center;margin:12px 0"><div style="display:inline-flex;align-items:center;gap:6px;padding:6px 18px;background:rgba(249,115,22,.08);border-radius:16px;border:1px solid rgba(249,115,22,.15)"><i data-lucide="heart" style="width:15px;height:15px;color:var(--z5)"></i><span style="font-size:22px;font-weight:800;font-family:var(--m)">172</span><span style="font-size:12px;color:var(--z4);font-weight:700">Z4</span></div></div>
+    <div class="zb" style="margin:10px 0"><span style="background:var(--z1);opacity:.2"></span><span style="background:var(--z2);opacity:.2"></span><span style="background:var(--z3);opacity:.2"></span><span style="background:var(--z4)"></span><span style="background:var(--z5);opacity:.2"></span></div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><span style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px" data-i18n="r02_dist">Distance</span><span style="font-size:16px;font-weight:700;font-family:var(--m)">3.42 <small style="color:var(--tx3)">km</small></span></div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><span style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px" data-i18n="r02_time">Time</span><span style="font-size:16px;font-weight:700;font-family:var(--m)">18:34</span></div>
+    <div style="display:flex;justify-content:center;gap:16px;margin-top:16px">
+      <div style="width:44px;height:44px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="volume-x" style="width:18px;height:18px"></i></div>
+      <div style="width:64px;height:64px;background:var(--gradient-main);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(255,107,44,.3)" onclick="go('run03')"><i data-lucide="pause" style="width:26px;height:26px;color:#fff"></i></div>
+      <div style="width:44px;height:44px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="lock" style="width:18px;height:18px"></i></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ RUN-03: PAUSED ═══════ -->
+<div class="s" id="s-run03">
+<div style="width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center">
+  <div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:4px;margin-bottom:6px" data-i18n="r03_paused">Paused</div>
+  <div style="font-size:56px;font-weight:800;font-family:var(--m);color:var(--warn);margin-bottom:28px">0:23</div>
+  <div class="sg" style="width:100%;margin-bottom:28px"><div class="sb2"><div class="sv">3.42</div><div class="sl">km</div></div><div class="sb2"><div class="sv">18:34</div><div class="sl" data-i18n="r02_time">time</div></div><div class="sb2"><div class="sv">5:26</div><div class="sl" data-i18n="r03_avg">avg pace</div></div><div class="sb2"><div class="sv">168</div><div class="sl" data-i18n="r03_avghr">avg HR</div></div></div>
+  <div style="width:68px;height:68px;background:var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 24px rgba(16,185,129,.2);margin-bottom:28px" onclick="go('run02')"><i data-lucide="play" style="width:28px;height:28px;color:#fff"></i></div>
+  <button class="btn" style="background:var(--err);color:#fff;margin-bottom:8px" onclick="go('run04')" data-i18n="r03_end">End Run</button>
+  <button class="btn btn-s" style="font-size:12px;color:var(--tx3)" onclick="go('home01')" data-i18n="r03_del">Discard Run</button>
+</div>
+</div>
+
+<!-- ═══════ RUN-04: COMPLETE ═══════ -->
+<div class="s" id="s-run04">
+<div class="sp ain">
+  <div style="text-align:center;padding-top:10px;margin-bottom:14px">
+    <div style="width:48px;height:48px;background:var(--gradient-main);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><i data-lucide="check" style="width:22px;height:22px;color:#fff"></i></div>
+    <h2 style="font-size:20px;font-weight:800" data-i18n="r04_t">Great Run!</h2>
+  </div>
+  <div class="map" style="height:150px;margin-bottom:12px"><svg viewBox="0 0 200 80" style="position:absolute;top:15%;left:10%;width:80%;height:60%"><path d="M10,60 Q25,10 55,35 T100,15 Q130,40 150,28 T190,55" fill="none" stroke="url(#cr)" stroke-width="3" stroke-linecap="round"/><defs><linearGradient id="cr" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#10B981"/><stop offset="30%" stop-color="#FBBF24"/><stop offset="60%" stop-color="#F97316"/><stop offset="100%" stop-color="#EF4444"/></linearGradient></defs><circle cx="10" cy="60" r="3" fill="var(--ok)"/><circle cx="190" cy="55" r="3" fill="var(--err)"/></svg></div>
+  <div class="sg"><div class="sb2"><div class="sv" style="background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">6.82</div><div class="sl">km</div></div><div class="sb2"><div class="sv">38:42</div><div class="sl" data-i18n="r02_time">time</div></div><div class="sb2"><div class="sv">5:40</div><div class="sl" data-i18n="r03_avg">avg pace</div></div><div class="sb2"><div class="sv">168</div><div class="sl" data-i18n="r03_avghr">avg HR</div></div></div>
+  <div class="sec-t">Splits</div>
+  <div class="card" style="padding:6px 14px">
+    <div class="sr"><span class="srk">1</span><span class="srp">5:42</span><div class="srb"><div style="width:55%;background:var(--z2)"></div></div><span class="srh">152</span></div>
+    <div class="sr"><span class="srk">2</span><span class="srp">4:28</span><div class="srb"><div style="width:82%;background:var(--z4)"></div></div><span class="srh">172</span></div>
+    <div class="sr"><span class="srk">3</span><span class="srp">4:24</span><div class="srb"><div style="width:86%;background:var(--z4)"></div></div><span class="srh">175</span></div>
+    <div class="sr"><span class="srk">4</span><span class="srp">4:31</span><div class="srb"><div style="width:80%;background:var(--z4)"></div></div><span class="srh">174</span></div>
+    <div class="sr"><span class="srk">5</span><span class="srp">4:18</span><div class="srb"><div style="width:90%;background:var(--z5)"></div></div><span class="srh">180</span></div>
+    <div class="sr" style="border:none"><span class="srk">6</span><span class="srp">6:05</span><div class="srb"><div style="width:40%;background:var(--z1)"></div></div><span class="srh">145</span></div>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <button class="btn btn-s" style="flex:1"><i data-lucide="share" style="width:15px;height:15px"></i> <span data-i18n="share">Share</span></button>
+    <button class="btn btn-p" style="flex:1" onclick="go('run05')"><i data-lucide="sparkles" style="width:15px;height:15px"></i> <span data-i18n="r05_btn">AI Analysis</span></button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ RUN-05: AI ANALYSIS ═══════ -->
+<div class="s" id="s-run05">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('run04')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700" data-i18n="r05_btn">AI Analysis</span><span style="margin-left:auto;padding:3px 9px;background:rgba(255,107,44,.1);border-radius:8px;font-size:10px;font-weight:700;color:var(--orange)">PRO</span></div>
+  <div class="ai-msg" style="border-left-color:var(--ok)"><div class="ai-lbl" style="color:var(--ok)"><i data-lucide="check-circle"></i> <span data-i18n="r05_good">Well Done</span></div><span data-i18n="r05_t1">Average 4:28/km with only 13s variance. Excellent pace control.</span></div>
+  <div class="ai-msg" style="border-left-color:var(--warn)"><div class="ai-lbl" style="color:var(--warn)"><i data-lucide="alert-triangle"></i> <span data-i18n="r05_improve">Improve</span></div><span data-i18n="r05_t2">Recovery HR is high (158 bpm). Extend rest intervals next time.</span></div>
+  <div class="ai-msg" style="border-left-color:var(--z4)"><div class="ai-lbl" style="color:var(--z4)"><i data-lucide="refresh-cw"></i> <span data-i18n="r05_adapt">Adaptation</span></div><span data-i18n="r05_t3">Tomorrow: Easy Run 6 km instead of 5 km — you've earned it.</span></div>
+  <div class="ai-msg"><div class="ai-lbl"><i data-lucide="target"></i> <span data-i18n="r05_pred">Prediction</span></div><span data-i18n="r05_t4">5K: <b>21:48 — 22:15</b></span></div>
+  <button class="btn btn-p" style="margin-top:12px" onclick="go('home01')" data-i18n="done">Done</button>
+</div>
+</div>
+
+<!-- ═══════ RUN-06: ROUTE MAP ═══════ -->
+<div class="s" id="s-run06">
+<div class="sp"><div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('run04')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700" data-i18n="r06_t">Route</span></div>
+<div class="map" style="height:400px"><svg viewBox="0 0
