@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RunAI Coach — Prototype v4.0</title>
+<title>RunAI Coach — Prototype v5.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -178,7 +178,7 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
 <div class="scnt" id="scnt">1 / 42</div>
 
 <div class="app">
-<nav class="side" id="sidebar"><div class="side-hdr"><div class="side-logo"><div class="logo-mark"><i data-lucide="flame" style="width:17px;height:17px;color:#fff"></i></div><span class="logo-txt">RunAI Coach</span></div><div class="side-sub">Prototype v4.0</div></div><div id="sideItems"></div></nav>
+<nav class="side" id="sidebar"><div class="side-hdr"><div class="side-logo"><div class="logo-mark"><i data-lucide="flame" style="width:17px;height:17px;color:#fff"></i></div><span class="logo-txt">RunAI Coach</span></div><div class="side-sub">Prototype v5.0 · 40 Screens</div></div><div id="sideItems"></div></nav>
 
 <div class="main">
 <div class="phone">
@@ -503,6 +503,13 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
     </div>
   </div>
 
+  <!-- Quick actions -->
+  <div style="display:flex;gap:8px;margin-bottom:10px">
+    <div class="card" style="flex:1;cursor:pointer;text-align:center;padding:12px" onclick="go('quick01')"><i data-lucide="play" style="width:20px;height:20px;color:var(--orange)"></i><div style="font-size:11px;font-weight:600;margin-top:4px">Quick Run</div></div>
+    <div class="card" style="flex:1;cursor:pointer;text-align:center;padding:12px" onclick="go('chat01')"><i data-lucide="message-circle" style="width:20px;height:20px;color:var(--orange)"></i><div style="font-size:11px;font-weight:600;margin-top:4px">AI Chat</div></div>
+    <div class="card" style="flex:1;cursor:pointer;text-align:center;padding:12px" onclick="go('sum01')"><i data-lucide="bar-chart-3" style="width:20px;height:20px;color:var(--orange)"></i><div style="font-size:11px;font-weight:600;margin-top:4px">Summary</div></div>
+  </div>
+
   <div class="ai-msg"><div class="ai-lbl"><i data-lucide="sparkles"></i> AI Coach</div>HRV is rising — today's a perfect day for intervals. Target 4:25-4:35/km in the fast segments.</div>
 
   <div class="sec-t">This Week</div>
@@ -666,6 +673,7 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
 
   <div class="sg" style="margin-top:14px"><div class="sb2"><div class="sv">36.2</div><div class="sl">km this week</div></div><div class="sb2"><div class="sv" style="color:var(--ok)">+8%</div><div class="sl">vs last week</div></div></div>
 
+  <button class="btn btn-s" style="margin-bottom:10px" onclick="go('plan02')"><i data-lucide="sliders-horizontal" style="width:14px;height:14px"></i> Adjust Plan</button>
   <div class="ai-msg"><div class="ai-lbl"><i data-lucide="sparkles"></i> Plan adapted</div>Added 1 km to Sunday's long run based on your recovery trend. You're on track for 1:45 HM.</div>
 </div>
 <div class="tb">
@@ -693,7 +701,7 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="map-pin" style="width:14px;height:14px"></i>GPS</span><span style="color:var(--ok)"><i data-lucide="check-circle" style="width:14px;height:14px"></i></span></div>
     <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="headphones" style="width:14px;height:14px"></i>AirPods Pro</span><span style="color:var(--ok)"><i data-lucide="check-circle" style="width:14px;height:14px"></i></span></div>
   </div>
-  <button class="btn btn-p" style="margin-top:14px;padding:18px;font-size:17px" onclick="go('run02')"><i data-lucide="play" style="width:20px;height:20px"></i> Start</button>
+  <button class="btn btn-p" style="margin-top:14px;padding:18px;font-size:17px" onclick="go('run00')"><i data-lucide="play" style="width:20px;height:20px"></i> Start</button>
 </div>
 </div>
 
@@ -708,6 +716,8 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
     <div class="zb" style="margin:10px 0"><span style="background:var(--z1);opacity:.2"></span><span style="background:var(--z2);opacity:.2"></span><span style="background:var(--z3);opacity:.2"></span><span style="background:var(--z4)"></span><span style="background:var(--z5);opacity:.2"></span></div>
     <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><span style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px">Distance</span><span style="font-size:16px;font-weight:700;font-family:var(--m)">3.42 <small style="color:var(--tx3)">km</small></span></div>
     <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><span style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px">Time</span><span style="font-size:16px;font-weight:700;font-family:var(--m)">18:34</span></div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><span style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px">Elevation ↑</span><span style="font-size:16px;font-weight:700;font-family:var(--m)">47 <small style="color:var(--tx3)">m</small></span></div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><span style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px">Cadence</span><span style="font-size:16px;font-weight:700;font-family:var(--m)">178 <small style="color:var(--tx3)">spm</small></span></div>
     <div style="display:flex;justify-content:center;gap:16px;margin-top:16px">
       <div style="width:44px;height:44px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="volume-x" style="width:18px;height:18px"></i></div>
       <div style="width:64px;height:64px;background:var(--gradient-main);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(255,107,44,.3)" onclick="go('run03')"><i data-lucide="pause" style="width:26px;height:26px;color:#fff"></i></div>
@@ -738,6 +748,7 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
   </div>
   <div class="map" style="height:150px;margin-bottom:12px"><svg viewBox="0 0 200 80" style="position:absolute;top:15%;left:10%;width:80%;height:60%"><path d="M10,60 Q25,10 55,35 T100,15 Q130,40 150,28 T190,55" fill="none" stroke="url(#cr)" stroke-width="3" stroke-linecap="round"/><defs><linearGradient id="cr" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#10B981"/><stop offset="30%" stop-color="#FBBF24"/><stop offset="60%" stop-color="#F97316"/><stop offset="100%" stop-color="#EF4444"/></linearGradient></defs><circle cx="10" cy="60" r="3" fill="var(--ok)"/><circle cx="190" cy="55" r="3" fill="var(--err)"/></svg></div>
   <div class="sg"><div class="sb2"><div class="sv" style="background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">8.2</div><div class="sl">km</div></div><div class="sb2"><div class="sv">45:12</div><div class="sl">time</div></div><div class="sb2"><div class="sv">5:31</div><div class="sl">avg pace</div></div><div class="sb2"><div class="sv">168</div><div class="sl">avg HR</div></div></div>
+  <div class="sg" style="margin-top:0"><div class="sb2"><div class="sv">124</div><div class="sl">elevation ↑ m</div></div><div class="sb2"><div class="sv">176</div><div class="sl">avg cadence</div></div><div class="sb2"><div class="sv">560</div><div class="sl">kcal</div></div><div class="sb2"><div class="sv">52</div><div class="sl">VO₂ est</div></div></div>
   <div class="sec-t">Splits</div>
   <div class="card" style="padding:6px 14px">
     <div class="sr"><span class="srk">1</span><span class="srp">5:42</span><div class="srb"><div style="width:55%;background:var(--z2)"></div></div><span class="srh">152</span></div>
@@ -1016,9 +1027,12 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
   <div class="mi" onclick="go('gam01')"><div class="mi-ic"><i data-lucide="award"></i></div><div class="mi-t">Achievements & Badges</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
   <div class="mi" onclick="go('prog01')"><div class="mi-ic"><i data-lucide="trending-up"></i></div><div class="mi-t">Progress & Stats</div><div class="mi-a"><span class="pro-tag" style="margin-right:6px">PRO</span><i data-lucide="chevron-right"></i></div></div>
   <div class="mi" onclick="go('prof02')"><div class="mi-ic"><i data-lucide="credit-card"></i></div><div class="mi-t">Subscription</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
+  <div class="mi" onclick="go('pr01')"><div class="mi-ic"><i data-lucide="medal"></i></div><div class="mi-t">Personal Records</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
   <div class="mi" onclick="go('ref01')"><div class="mi-ic"><i data-lucide="gift"></i></div><div class="mi-t">Invite Friends</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
-  <div class="mi"><div class="mi-ic"><i data-lucide="watch"></i></div><div class="mi-t">Devices</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
-  <div class="mi"><div class="mi-ic"><i data-lucide="settings"></i></div><div class="mi-t">Settings</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
+  <div class="mi" onclick="go('shoe01')"><div class="mi-ic"><i data-lucide="footprints"></i></div><div class="mi-t">Shoes</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
+  <div class="mi" onclick="go('watch01')"><div class="mi-ic"><i data-lucide="watch"></i></div><div class="mi-t">Devices</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
+  <div class="mi" onclick="go('set01')"><div class="mi-ic"><i data-lucide="settings"></i></div><div class="mi-t">Settings</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
+  <div class="mi" onclick="go('safe01')"><div class="mi-ic"><i data-lucide="shield-check"></i></div><div class="mi-t">Safety & Live Share</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
   <div class="mi"><div class="mi-ic"><i data-lucide="help-circle"></i></div><div class="mi-t">Help & Support</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
 </div>
 <div class="tb">
@@ -1065,6 +1079,284 @@ body{background:#050507;font-family:var(--f);color:var(--tx);min-height:100vh;ov
 </div>
 </div>
 
+<!-- ═══════ RUN-00: COUNTDOWN ═══════ -->
+<div class="s" id="s-run00">
+<div style="width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden">
+  <div style="position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(255,107,44,.15) 0%,transparent 60%);border-radius:50%;filter:blur(40px)"></div>
+  <div style="position:relative;z-index:1;text-align:center">
+    <div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px">Get Ready</div>
+    <div style="font-size:140px;font-weight:800;font-family:var(--m);background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;animation:pulse 1s infinite">3</div>
+    <div style="font-size:13px;color:var(--tx2);margin-top:14px">6×800m Speed Work</div>
+    <div style="margin-top:20px;display:flex;align-items:center;gap:6px;justify-content:center;padding:6px 14px;background:rgba(16,185,129,.08);border-radius:12px;border:1px solid rgba(16,185,129,.15)">
+      <i data-lucide="watch" style="width:14px;height:14px;color:var(--ok)"></i>
+      <span style="font-size:11px;color:var(--ok);font-weight:600">Apple Watch synced</span>
+    </div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:6px;justify-content:center;padding:6px 14px;background:rgba(16,185,129,.08);border-radius:12px;border:1px solid rgba(16,185,129,.15)">
+      <i data-lucide="map-pin" style="width:14px;height:14px;color:var(--ok)"></i>
+      <span style="font-size:11px;color:var(--ok);font-weight:600">GPS locked</span>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:calc(var(--sb) + 20px);left:22px;right:22px;text-align:center">
+    <button class="btn btn-s" onclick="go('run01')" style="font-size:12px">Cancel</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ QUICK-01: QUICK RUN (NO PLAN) ═══════ -->
+<div class="s" id="s-quick01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('home01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">Quick Run</span></div>
+  <div style="text-align:center;margin-bottom:20px">
+    <div style="width:80px;height:80px;background:var(--gradient-main);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 30px rgba(255,107,44,.3)"><i data-lucide="play" style="width:36px;height:36px;color:#fff"></i></div>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:5px">Just Run</h2>
+    <p style="font-size:13px;color:var(--tx2)">No plan, no targets — just move</p>
+  </div>
+  <div class="sec-t">Set a target (optional)</div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(96,165,250,.08)"><i data-lucide="route" style="color:var(--info)"></i></div><div><div class="sel-t">Distance</div><div class="sel-d">Set a target distance</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(251,191,36,.08)"><i data-lucide="clock" style="color:var(--warn)"></i></div><div><div class="sel-t">Time</div><div class="sel-d">Run for a set duration</div></div></div>
+  <div class="sel" onclick="this.classList.toggle('on')"><div class="sel-ic" style="background:rgba(239,68,68,.08)"><i data-lucide="flame" style="color:var(--err)"></i></div><div><div class="sel-t">Calories</div><div class="sel-d">Burn a target amount</div></div></div>
+  <div class="sec-t">AI Voice Coach</div>
+  <div class="tgl">
+    <div><div style="font-size:14px;font-weight:500">Live coaching</div><div style="font-size:11px;color:var(--tx3)">AI comments on pace, HR, form</div></div>
+    <div class="tgl-s on"></div>
+  </div>
+  <div class="sec-t">Devices</div>
+  <div class="card" style="padding:10px 14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="watch" style="width:14px;height:14px"></i>Apple Watch Ultra</span><span style="color:var(--ok)"><i data-lucide="check-circle" style="width:14px;height:14px"></i></span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="map-pin" style="width:14px;height:14px"></i>GPS</span><span style="color:var(--ok)"><i data-lucide="check-circle" style="width:14px;height:14px"></i></span></div>
+  </div>
+  <button class="btn btn-p" style="margin-top:16px;padding:18px;font-size:17px" onclick="go('run00')"><i data-lucide="play" style="width:20px;height:20px"></i> Start Run</button>
+</div>
+</div>
+
+<!-- ═══════ SET-01: SETTINGS ═══════ -->
+<div class="s" id="s-set01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('prof01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">Settings</span></div>
+  <div class="sec-t">Units & Language</div>
+  <div class="tgl"><div style="font-size:13px;font-weight:500">Distance unit</div><div style="display:flex;background:var(--bg-card);border:1px solid var(--brd);border-radius:8px;overflow:hidden"><span style="padding:5px 14px;font-size:12px;font-weight:600;background:var(--gradient-main);color:#fff">km</span><span style="padding:5px 14px;font-size:12px;color:var(--tx3)">mi</span></div></div>
+  <div class="tgl"><div style="font-size:13px;font-weight:500">Language</div><div style="display:flex;background:var(--bg-card);border:1px solid var(--brd);border-radius:8px;overflow:hidden"><span style="padding:5px 14px;font-size:12px;font-weight:600;background:var(--gradient-main);color:#fff">EN</span><span style="padding:5px 14px;font-size:12px;color:var(--tx3)">BG</span></div></div>
+  <div class="sec-t">AI Coach</div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Voice coaching</div><div style="font-size:10px;color:var(--tx3)">Audio cues during run</div></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Haptic alerts</div><div style="font-size:10px;color:var(--tx3)">Vibrate at zone changes</div></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div style="font-size:13px;font-weight:500">Coach frequency</div><span style="font-size:12px;color:var(--tx2);font-family:var(--m)">Every 500m</span></div>
+  <div class="sec-t">Notifications</div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Daily reminder</div><div style="font-size:10px;color:var(--tx3)">Remind to run on training days</div></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">AI tips</div><div style="font-size:10px;color:var(--tx3)">Recovery, sleep, nutrition tips</div></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Kudos & comments</div><div style="font-size:10px;color:var(--tx3)">Community interactions</div></div><div class="tgl-s on"></div></div>
+  <div class="sec-t">Privacy</div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Hide start/finish</div><div style="font-size:10px;color:var(--tx3)">Blur 200m around home</div></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Profile visibility</div><div style="font-size:10px;color:var(--tx3)">Who can see your runs</div></div><span style="font-size:12px;color:var(--tx2)">Everyone</span></div>
+  <div class="sec-t">Data</div>
+  <div class="mi"><div class="mi-ic"><i data-lucide="download"></i></div><div class="mi-t">Export Data</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
+  <div class="mi"><div class="mi-ic"><i data-lucide="trash-2"></i></div><div class="mi-t" style="color:var(--err)">Delete Account</div><div class="mi-a"><i data-lucide="chevron-right"></i></div></div>
+</div>
+</div>
+
+<!-- ═══════ CHAT-01: AI CHAT ═══════ -->
+<div class="s" id="s-chat01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('home01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">AI Coach Chat</span><span class="pro-tag" style="margin-left:auto">PRO</span></div>
+  <div style="text-align:center;margin-bottom:14px">
+    <div style="width:46px;height:46px;background:var(--gradient-main);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px"><i data-lucide="sparkles" style="width:20px;height:20px;color:#fff"></i></div>
+    <div style="font-size:10px;color:var(--tx3)">Ask anything about your training</div>
+  </div>
+  <!-- Chat messages -->
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><div style="max-width:75%;padding:10px 14px;background:rgba(255,107,44,.1);border:1px solid rgba(255,107,44,.15);border-radius:16px 16px 4px 16px;font-size:13px">Should I run today? My legs feel heavy.</div></div>
+  <div style="display:flex;margin-bottom:10px"><div style="max-width:80%;padding:10px 14px;background:var(--bg-card);border:1px solid var(--brd);border-radius:16px 16px 16px 4px;font-size:13px;line-height:1.5"><div style="display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="sparkles" style="width:12px;height:12px;color:var(--orange)"></i><span style="font-size:10px;font-weight:700;color:var(--orange)">AI Coach</span></div>Based on your data: HRV is 12% below your baseline, and your training load has been high this week (+18%). <br><br>I recommend a <b>light recovery run</b> (4 km, Zone 1-2) or a <b>rest day</b>. Your plan is adjusted — tomorrow's tempo run will still be there. Listen to your body! 💪</div></div>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><div style="max-width:75%;padding:10px 14px;background:rgba(255,107,44,.1);border:1px solid rgba(255,107,44,.15);border-radius:16px 16px 4px 16px;font-size:13px">What pace should I target for my half marathon?</div></div>
+  <div style="display:flex;margin-bottom:10px"><div style="max-width:80%;padding:10px 14px;background:var(--bg-card);border:1px solid var(--brd);border-radius:16px 16px 16px 4px;font-size:13px;line-height:1.5"><div style="display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="sparkles" style="width:12px;height:12px;color:var(--orange)"></i><span style="font-size:10px;font-weight:700;color:var(--orange)">AI Coach</span></div>Your current fitness predicts <b>1:42-1:46</b> half marathon. For a <b>1:45 target</b>:<br><br>• Race pace: <b>4:58/km</b><br>• First 5K: <b>5:02/km</b> (don't go out fast)<br>• Middle 10K: <b>4:55-4:58/km</b><br>• Last 6K: <b>4:50-4:55/km</b> (negative split)<br><br>Your interval times suggest you can hold this. Want me to create a race-day plan?</div></div>
+  <!-- Input bar -->
+  <div style="position:sticky;bottom:0;left:0;right:0;padding:10px 0;background:var(--bg)">
+    <div style="display:flex;gap:8px;align-items:center">
+      <input class="inp" style="flex:1;border-radius:20px;padding:10px 16px" placeholder="Ask your AI coach...">
+      <div style="width:38px;height:38px;background:var(--gradient-main);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><i data-lucide="send" style="width:16px;height:16px;color:#fff"></i></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ PR-01: PERSONAL RECORDS ═══════ -->
+<div class="s" id="s-pr01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('prof01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">Personal Records</span></div>
+  <!-- PR Cards -->
+  <div class="card card-a card-glow" style="text-align:center;padding:18px">
+    <div style="font-size:10px;color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">🏆 Fastest 5K</div>
+    <div style="font-size:36px;font-weight:800;font-family:var(--m);background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">24:12</div>
+    <div style="font-size:11px;color:var(--tx2);margin-top:4px">Mar 10, 2026 · Borisova gradina</div>
+    <div style="font-size:10px;color:var(--ok);margin-top:2px">↓ 38s from previous best</div>
+  </div>
+  <div class="card" style="text-align:center;padding:18px">
+    <div style="font-size:10px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">Fastest 10K</div>
+    <div style="font-size:32px;font-weight:800;font-family:var(--m)">51:34</div>
+    <div style="font-size:11px;color:var(--tx2);margin-top:4px">Mar 3, 2026 · South Park loop</div>
+  </div>
+  <div class="card" style="text-align:center;padding:18px">
+    <div style="font-size:10px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">Longest Run</div>
+    <div style="font-size:32px;font-weight:800;font-family:var(--m)">14.1 <small style="font-size:16px;color:var(--tx3)">km</small></div>
+    <div style="font-size:11px;color:var(--tx2);margin-top:4px">Mar 9, 2026 · Vitosha foothills</div>
+  </div>
+  <div class="card" style="text-align:center;padding:18px">
+    <div style="font-size:10px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">Fastest 1K</div>
+    <div style="font-size:32px;font-weight:800;font-family:var(--m)">4:08</div>
+    <div style="font-size:11px;color:var(--tx2);margin-top:4px">Mar 10, 2026 · 800m interval #5</div>
+  </div>
+  <div class="card" style="text-align:center;padding:18px">
+    <div style="font-size:10px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">Most Elevation</div>
+    <div style="font-size:32px;font-weight:800;font-family:var(--m)">312 <small style="font-size:16px;color:var(--tx3)">m</small></div>
+    <div style="font-size:11px;color:var(--tx2);margin-top:4px">Mar 5, 2026 · Vitosha trail</div>
+  </div>
+  <div class="card" style="text-align:center;padding:18px;opacity:.4">
+    <div style="font-size:10px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">Half Marathon</div>
+    <div style="font-size:28px;font-weight:800;font-family:var(--m);color:var(--tx3)">—</div>
+    <div style="font-size:11px;color:var(--tx3);margin-top:4px">Not yet achieved</div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ SHOE-01: SHOE TRACKING ═══════ -->
+<div class="s" id="s-shoe01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('prof01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">Shoes</span></div>
+  <!-- Active shoe -->
+  <div class="card card-a" style="padding:16px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div style="width:50px;height:50px;background:rgba(255,107,44,.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px">👟</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700">Nike Pegasus 41</div>
+        <div style="font-size:11px;color:var(--tx2)">Added Feb 15, 2026</div>
+      </div>
+      <div style="padding:3px 8px;background:rgba(16,185,129,.1);border-radius:6px;font-size:9px;font-weight:700;color:var(--ok)">ACTIVE</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:11px;color:var(--tx3)">Distance</span>
+      <span style="font-size:12px;font-weight:600;font-family:var(--m)">287 / 800 km</span>
+    </div>
+    <div style="width:100%;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-bottom:4px"><div style="width:36%;height:100%;background:var(--ok);border-radius:3px"></div></div>
+    <div style="font-size:10px;color:var(--ok)">36% worn · ~513 km remaining</div>
+  </div>
+  <!-- Second shoe -->
+  <div class="card" style="padding:16px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div style="width:50px;height:50px;background:var(--bg-el);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px">👟</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700">ASICS Novablast 4</div>
+        <div style="font-size:11px;color:var(--tx2)">Added Jan 10, 2026</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:11px;color:var(--tx3)">Distance</span>
+      <span style="font-size:12px;font-weight:600;font-family:var(--m)">542 / 800 km</span>
+    </div>
+    <div style="width:100%;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-bottom:4px"><div style="width:68%;height:100%;background:var(--warn);border-radius:3px"></div></div>
+    <div style="font-size:10px;color:var(--warn)">⚠️ 68% worn · replace soon</div>
+  </div>
+  <!-- Retired shoe -->
+  <div class="card" style="padding:16px;opacity:.5">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:50px;height:50px;background:var(--bg-el);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px">👟</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700">Nike Vomero 17</div>
+        <div style="font-size:11px;color:var(--tx3)">Retired · 823 km</div>
+      </div>
+      <div style="padding:3px 8px;background:var(--bg-el);border-radius:6px;font-size:9px;font-weight:700;color:var(--tx3)">RETIRED</div>
+    </div>
+  </div>
+  <button class="btn btn-p" style="margin-top:14px"><i data-lucide="plus" style="width:16px;height:16px"></i> Add Shoe</button>
+</div>
+</div>
+
+<!-- ═══════ SUM-01: WEEKLY SUMMARY ═══════ -->
+<div class="s" id="s-sum01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:14px"><span style="cursor:pointer" onclick="go('home01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">Weekly Summary</span><span class="pro-tag" style="margin-left:auto">PRO</span></div>
+  <div style="text-align:center;margin-bottom:16px">
+    <div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px">Week 6 · Mar 10–16</div>
+    <div style="font-size:24px;font-weight:800;margin-top:6px">Great Week! 🎉</div>
+  </div>
+  <div class="sg"><div class="sb2"><div class="sv" style="background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">36.2</div><div class="sl">km total</div></div><div class="sb2"><div class="sv">4</div><div class="sl">runs</div></div><div class="sb2"><div class="sv" style="color:var(--ok)">5:18</div><div class="sl">avg pace</div></div><div class="sb2"><div class="sv">2,240</div><div class="sl">kcal</div></div></div>
+  <div class="sec-t">Compared to last week</div>
+  <div class="card" style="padding:10px 14px">
+    <div class="sr"><span style="flex:1;font-size:13px">Distance</span><span style="font-size:13px;font-weight:600;color:var(--ok)">+8% ↑</span></div>
+    <div class="sr"><span style="flex:1;font-size:13px">Avg Pace</span><span style="font-size:13px;font-weight:600;color:var(--ok)">-12s ↑</span></div>
+    <div class="sr"><span style="flex:1;font-size:13px">Training Load</span><span style="font-size:13px;font-weight:600;color:var(--ok)">Optimal</span></div>
+    <div class="sr" style="border:none"><span style="flex:1;font-size:13px">Recovery</span><span style="font-size:13px;font-weight:600;color:var(--ok)">Good (85/100)</span></div>
+  </div>
+  <div class="sec-t">Zone Distribution</div>
+  <div class="card" style="padding:14px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--z1)"></div><span style="flex:1;font-size:12px">Zone 1 — Recovery</span><span style="font-size:12px;font-family:var(--m);color:var(--tx2)">12%</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--z2)"></div><span style="flex:1;font-size:12px">Zone 2 — Easy</span><span style="font-size:12px;font-family:var(--m);color:var(--tx2)">45%</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--z3)"></div><span style="flex:1;font-size:12px">Zone 3 — Tempo</span><span style="font-size:12px;font-family:var(--m);color:var(--tx2)">18%</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--z4)"></div><span style="flex:1;font-size:12px">Zone 4 — Threshold</span><span style="font-size:12px;font-family:var(--m);color:var(--tx2)">20%</span></div>
+    <div style="display:flex;align-items:center;gap:8px"><div style="width:10px;height:10px;border-radius:2px;background:var(--z5)"></div><span style="flex:1;font-size:12px">Zone 5 — VO₂ Max</span><span style="font-size:12px;font-family:var(--m);color:var(--tx2)">5%</span></div>
+    <div class="zb" style="margin-top:10px;height:8px"><span style="background:var(--z1);flex:.12"></span><span style="background:var(--z2);flex:.45"></span><span style="background:var(--z3);flex:.18"></span><span style="background:var(--z4);flex:.20"></span><span style="background:var(--z5);flex:.05"></span></div>
+  </div>
+  <div class="ai-msg"><div class="ai-lbl"><i data-lucide="sparkles"></i> AI Summary</div>Strong week! Your 80/20 ratio (easy vs hard) is spot on. The intervals showed pace improvement — keep the long runs easy and you'll nail 1:45 HM. 🎯</div>
+  <button class="btn btn-p" onclick="go('home01')">Done</button>
+</div>
+</div>
+
+<!-- ═══════ PLAN-02: PLAN ADJUST ═══════ -->
+<div class="s" id="s-plan02">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('plan01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">Adjust Plan</span><span class="pro-tag" style="margin-left:auto">PRO</span></div>
+  <div class="ai-msg"><div class="ai-lbl"><i data-lucide="sparkles"></i> AI Coach</div>Your plan adapts automatically. You can also make manual adjustments below.</div>
+  <div class="sec-t">Goal</div>
+  <div class="card" style="display:flex;align-items:center;gap:12px">
+    <div style="width:38px;height:38px;background:rgba(255,107,44,.08);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="trophy" style="width:18px;height:18px;color:var(--orange)"></i></div>
+    <div style="flex:1"><div style="font-size:13px;font-weight:600">Half Marathon — 1:45</div><div style="font-size:11px;color:var(--tx2)">Sofia Marathon · Oct 12, 2026</div></div>
+    <i data-lucide="edit" style="width:14px;height:14px;color:var(--tx3)"></i>
+  </div>
+  <div class="sec-t">This Week Adjustments</div>
+  <div class="sel on" style="border-color:var(--warn)"><div class="sel-ic" style="background:rgba(251,191,36,.08)"><i data-lucide="bed" style="color:var(--warn)"></i></div><div><div class="sel-t">I'm tired / sore</div><div class="sel-d">AI will reduce intensity this week</div></div></div>
+  <div class="sel"><div class="sel-ic" style="background:rgba(96,165,250,.08)"><i data-lucide="plane" style="color:var(--info)"></i></div><div><div class="sel-t">I'm traveling</div><div class="sel-d">Adapt workouts for limited gear/space</div></div></div>
+  <div class="sel"><div class="sel-ic" style="background:rgba(16,185,129,.08)"><i data-lucide="zap" style="color:var(--ok)"></i></div><div><div class="sel-t">I feel great!</div><div class="sel-d">Push me harder this week</div></div></div>
+  <div class="sel"><div class="sel-ic" style="background:rgba(239,68,68,.08)"><i data-lucide="shield-alert" style="color:var(--err)"></i></div><div><div class="sel-t">Slight injury</div><div class="sel-d">Reduce load, avoid impact</div></div></div>
+  <div class="sec-t">Training Days</div>
+  <div class="dp" style="justify-content:center;margin-top:6px">
+    <div class="dpl on">Mon</div><div class="dpl">Tue</div><div class="dpl on">Wed</div><div class="dpl">Thu</div><div class="dpl on">Fri</div><div class="dpl">Sat</div><div class="dpl on">Sun</div>
+  </div>
+  <div class="sec-t">Weekly Volume</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 0">
+    <div style="width:32px;height:32px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="minus" style="width:14px;height:14px"></i></div>
+    <div style="font-size:28px;font-weight:800;font-family:var(--m)">36 <small style="font-size:14px;color:var(--tx3)">km</small></div>
+    <div style="width:32px;height:32px;background:var(--bg-card);border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="plus" style="width:14px;height:14px"></i></div>
+  </div>
+  <button class="btn btn-p" style="margin-top:14px">Apply Changes</button>
+</div>
+</div>
+
+<!-- ═══════ SAFE-01: SAFETY / LIVE SHARE ═══════ -->
+<div class="s" id="s-safe01">
+<div class="sp ain">
+  <div style="padding-top:6px;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="cursor:pointer" onclick="go('set01')"><i data-lucide="arrow-left" style="width:18px;height:18px"></i></span><span style="font-size:15px;font-weight:700">Safety & Live Share</span></div>
+  <div style="text-align:center;margin-bottom:20px">
+    <div style="width:64px;height:64px;background:rgba(16,185,129,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;border:2px solid rgba(16,185,129,.2)"><i data-lucide="shield-check" style="width:28px;height:28px;color:var(--ok)"></i></div>
+    <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">Run Safely</h2>
+    <p style="font-size:12px;color:var(--tx2)">Share your live location during runs</p>
+  </div>
+  <div class="sec-t">Emergency Contacts</div>
+  <div class="card" style="display:flex;align-items:center;gap:12px;padding:12px 14px">
+    <div class="avatar" style="width:40px;height:40px;background:linear-gradient(135deg,#FF6B2C,#FF3D00);color:#fff;font-size:14px">AK</div>
+    <div style="flex:1"><div style="font-size:13px;font-weight:600">Ana Koynova</div><div style="font-size:11px;color:var(--tx2)">+359 88 *** **12</div></div>
+    <div style="color:var(--ok)"><i data-lucide="check-circle" style="width:16px;height:16px"></i></div>
+  </div>
+  <button class="btn btn-s" style="margin-top:8px"><i data-lucide="plus" style="width:14px;height:14px"></i> Add Contact</button>
+  <div class="sec-t">Live Location</div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Auto-share on run start</div><div style="font-size:10px;color:var(--tx3)">Contacts see your live map + pace</div></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">Crash detection</div><div style="font-size:10px;color:var(--tx3)">Alert contacts if sudden stop detected</div></div><div class="tgl-s on"></div></div>
+  <div class="tgl"><div><div style="font-size:13px;font-weight:500">SOS button during run</div><div style="font-size:10px;color:var(--tx3)">Quick alert to contacts + location</div></div><div class="tgl-s on"></div></div>
+  <div class="sec-t">What contacts see</div>
+  <div class="card">
+    <div class="map" style="height:120px;margin-bottom:10px"><svg viewBox="0 0 200 60" style="position:absolute;top:15%;left:10%;width:80%;height:60%"><path d="M10,40 Q40,10 80,30 T150,20 T190,35" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/><circle cx="190" cy="35" r="4" fill="var(--ok)"><animate attributeName="r" values="3;6;3" dur="1.5s" repeatCount="indefinite"/></circle></svg></div>
+    <div style="display:flex;gap:12px;font-size:12px;color:var(--tx2);justify-content:center">
+      <span>📍 Live location</span><span>🏃 5:28/km</span><span>❤️ 158 bpm</span>
+    </div>
+  </div>
+</div>
+</div>
+
 </div><!-- end .sc -->
 </div><!-- end .phone -->
 
@@ -1099,19 +1391,28 @@ const screens=[
   {id:'home03',name:'Dashboard (Free)',code:'HOME-03',desc:'Free: workout limit, upsell, basic AI',sec:'Home'},
   {id:'home04',name:'Notifications',code:'HOME-04',desc:'AI tips, achievements, kudos, injury alerts',sec:'Home'},
   {id:'plan01',name:'Weekly Plan',code:'PLAN-01',desc:'Color-coded weekly training plan',sec:'Plan'},
+  {id:'plan02',name:'Plan Adjust',code:'PLAN-02',desc:'Manual plan adjustments — fatigue, travel, intensity',sec:'Plan'},
+  {id:'quick01',name:'Quick Run',code:'QUICK-01',desc:'Free run without plan — optional targets',sec:'Live Run'},
+  {id:'run00',name:'Countdown',code:'RUN-00',desc:'3-2-1 countdown before run start',sec:'Live Run'},
   {id:'run01',name:'Pre-Run',code:'RUN-01',desc:'Pre-run briefing with targets and devices',sec:'Live Run'},
-  {id:'run02',name:'Active Run',code:'RUN-02',desc:'Live run — pace, HR, zone bar, map',sec:'Live Run'},
+  {id:'run02',name:'Active Run',code:'RUN-02',desc:'Live run — pace, HR, elevation, cadence, zone bar',sec:'Live Run'},
   {id:'run03',name:'Paused',code:'RUN-03',desc:'Pause screen with resume/end options',sec:'Live Run'},
-  {id:'run04',name:'Complete',code:'RUN-04',desc:'Post-run summary with map and splits',sec:'Live Run'},
+  {id:'run04',name:'Complete',code:'RUN-04',desc:'Post-run summary — map, splits, elevation, cadence',sec:'Live Run'},
   {id:'run05',name:'AI Analysis',code:'RUN-05',desc:'Pro AI analysis — insights, adaptation, prediction',sec:'Live Run'},
   {id:'share01',name:'Share Run',code:'SHARE-01',desc:'Share to Instagram Story, Community feed',sec:'Live Run'},
   {id:'com01',name:'Community Feed',code:'COM-01',desc:'Activity feed with kudos and comments',sec:'Community'},
   {id:'com02',name:'Challenges',code:'COM-02',desc:'Monthly/weekly challenges with leaderboard',sec:'Community'},
   {id:'ref01',name:'Referral',code:'REF-01',desc:'Invite friends — give a week, get a week',sec:'Community'},
+  {id:'chat01',name:'AI Chat',code:'CHAT-01',desc:'Chat with AI coach — training advice, race strategy',sec:'AI Coach'},
   {id:'gam01',name:'Achievements',code:'GAM-01',desc:'Streak counter, badges, milestones',sec:'Gamification'},
+  {id:'sum01',name:'Weekly Summary',code:'SUM-01',desc:'Weekly stats, zone distribution, AI summary',sec:'Gamification'},
   {id:'prog01',name:'Progress',code:'PROG-01',desc:'Training load, race predictions, trends',sec:'Progress'},
+  {id:'pr01',name:'Personal Records',code:'PR-01',desc:'PRs — 5K, 10K, longest run, fastest 1K, elevation',sec:'Progress'},
   {id:'prof01',name:'Profile',code:'PROF-01',desc:'Profile with stats, followers, settings',sec:'Profile'},
   {id:'prof02',name:'Subscription',code:'PROF-02',desc:'Subscription management',sec:'Profile'},
+  {id:'set01',name:'Settings',code:'SET-01',desc:'Units, AI coach, notifications, privacy, data',sec:'Profile'},
+  {id:'shoe01',name:'Shoes',code:'SHOE-01',desc:'Shoe tracking — distance, wear, rotation',sec:'Profile'},
+  {id:'safe01',name:'Safety',code:'SAFE-01',desc:'Live share, emergency contacts, crash detection',sec:'Profile'},
   {id:'watch01',name:'Apple Watch',code:'WATCH-01',desc:'Watch face during live run',sec:'Watch'},
 ];
 let ci=0;
